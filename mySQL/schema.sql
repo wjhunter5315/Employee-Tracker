@@ -7,13 +7,13 @@ CREATE TABLE departments (
     name VARCHAR (30),
 );
 
-INSERT INTO department (id, name)
+INSERT INTO departments (id, name)
 VALUES (1, "Sales");
-INSERT INTO department (id, name)
+INSERT INTO departments (id, name)
 VALUES (2, "Engineering");
-INSERT INTO department (id, name)
+INSERT INTO departments (id, name)
 VALUES (3, "Finance");
-INSERT INTO department (id, name)
+INSERT INTO departments (id, name)
 VALUES (4, "Legal");
 
 CREATE TABLE roles (
@@ -41,7 +41,7 @@ VALUES (7, "Lawyer", 190000);
 CREATE TABLE employees (
     id INT NOT NULL,
     first_name VARCHAR (30),
-    last_night VARCHAR (30),
+    last_name VARCHAR (30),
     role_id INT,
     manager_id INT,
 );
