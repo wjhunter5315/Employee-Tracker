@@ -14,137 +14,6 @@ connection.connect(function(err) {
   menuMain();
 });
 
-// function menuMain () {
-//     inquirer
-//     .prompt([
-//         {
-//             name: "firstPrompt",
-//             message: "What would you like to do?",
-//             type: "list",
-//             choices: ["View Employees", "View Roles", "View Departments", "Add Employee", "Add Role", "Add Department"],
-//         }
-//     ])
-//     .then(answers => {
-//         console.log("Answer: ", answers.firstPrompt);
-//         if(answers.firstPrompt==="View Departments"){
-//           connection.query("SELECT * FROM departments", function(err, res) {
-//             // if(err) throw err;
-//             for(var i = 0; i<res.length; i++) {
-//               const depoNames = res[i].name;
-//               console.info(`Departments: ${depoNames}`);
-//               menuMain();
-//             }
-//           })
-//         }
-
-//         if(answers.firstPrompt==="View Roles"){
-//           connection.query("SELECT * FROM roles", function(err, res) {
-//             if(err) throw err;
-//             for(var i = 0; i<res.length; i++) {
-//               const roles = res[i].title;
-//               console.info(`Roles: ${roles}`);
-//               menuMain();
-//             }
-//           })
-//         }
-
-//         if(answers.firstPrompt==="View Employees"){
-//           connection.query("SELECT * FROM employees", function(err, res) {
-//             if (err) throw err;
-//             for (var i=0; i<res.length; i++) {
-//               const firstName = res[i].first_name;
-//               const lastName = res[i].last_name;
-//               console.log(`Employees: ${firstName} ${lastName}`);
-//               menuMain();
-//             }
-//           })
-//         }
-
-//         if(answers.firstPrompt==="Add Department"){
-//           inquirer
-//           .prompt([
-//             {
-//               name: "addDepot",
-//               type: "input",
-//               message: "What is the New Department's name?",
-//             }
-//           ])
-//           .then(depotName=> {
-//             connection.query("INSERT INTO departments SET ?",
-//               {
-//                 name: depotName.addDepot
-//               },
-//               function(err) {
-//                 if(err) throw err;
-//                 console.info(`Department Added!`);
-//                 menuMain();
-//               }
-//             );
-//           });
-          
-//         }
-
-//         if(answers.firstPrompt==="Add Role"){
-//           inquirer
-//           .prompt([
-//             {
-//               name: "addRole",
-//               type: "input",
-//               message: "What is the New Role?",
-//             }
-//           ])
-//           .then(roleName=> {
-//             const newRole = roleName.addRole;
-//             console.log(newRole);
-//             connection.query("INSERT INTO roles SET ?",
-//             {
-//               title: newRole,
-//             },
-//               function(err) {
-//                 // if(err) throw err;
-//                 console.info(`Role Added!`);
-//                 menuMain();
-//               }
-//             );
-//           });
-          
-//         }
-
-//         if(answers.firstPrompt==="Add Employee"){
-//           inquirer
-//           .prompt([
-//             {
-//               name: "addEmployeeFirst",
-//               type: "input",
-//               message: "What is the New Employee's first name?",
-//             },
-//             {
-//               name: "addEmployeeLast",
-//               type: "input",
-//               message: "What is the New Employee's last name?",
-//             }
-//           ])
-//           .then(roleName=> {
-//             connection.query("INSERT INTO employees SET ?",
-//               {
-//                 first_name: roleName.addEmployeeFirst
-//               },
-//               {
-//                 last_name: roleName.addEmployeeLast
-//               },
-//               function(err) {
-//                 if(err) throw err;
-//                 console.info(`Role Added!`);
-//                 menuMain();
-//               }
-//             );
-//           });
-          
-//         }
-
-//     });
-// }
-
 function menuMain () {
   inquirer
   .prompt(
@@ -252,12 +121,87 @@ function addDepot() {
         if(err) throw err;
         console.log(res.affectedRows);
         console.info(`Department Added!`);
-        console.log(query.sql);
+        // console.log(query.sql);
         menuMain();
       }
     );
   });
 }
+
+function addRole() {
+  inquirer
+  .prompt([
+    {
+      name: "addRoles",
+      type: "input",
+      message: "What is the New Role's name?",
+    },
+    {
+      name: "roleID",
+      type: "input",
+      message: "What is the New Role ID?",
+    }
+  ])
+  .then(roleName=> {
+    var query = connection.query(
+      "INSERT INTO roles SET ?",
+      [
+        {
+          id: roleName.roleID,
+          name: roleName.addRoles,
+        }
+      ],
+      function(err, res) {
+        if(err) throw err;
+        console.log(res.affectedRows);
+        console.info(`Role Added!`);
+        // console.log(query.sql);
+        menuMain();
+      }
+    );
+  });
+}
+
+function addEmployee() {
+  inquirer
+  .prompt([
+    {
+      name: "addEmployeesFirst",
+      type: "input",
+      message: "What is the New Employee's first name?",
+    },
+    {
+      name: "addEmployeesLast",
+      type: "input",
+      message: "What is the New Employee's last name?",
+    },
+    {
+      name: "employeeID",
+      type: "input",
+      message: "What is the New Department ID?",
+    }
+  ])
+  .then(employeeName=> {
+    var query = connection.query(
+      "INSERT INTO employees SET ?",
+      [
+        {
+          id: employeeName.employeeID,
+          first_name: employeeName.addEmployeesFirst,
+          last_name: employeeName.addEmployeesLast,
+        }
+      ],
+      function(err, res) {
+        if(err) throw err;
+        console.log(res.affectedRows);
+        console.info(`Employee Added!`);
+        // console.log(query.sql);
+        menuMain();
+      }
+    );
+  });
+}
+
 function quitMenu() {
   connection.end();
 }
