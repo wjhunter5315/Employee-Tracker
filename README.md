@@ -11,3 +11,5 @@ Navigate with arrow keys to make selections.
 
 **ADD and VIEW are functional
 **UPDATE is not quite right
+
+VIDEO DEMO - https://youtu.be/MHG_s7Y1_sc
